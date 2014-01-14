@@ -19,10 +19,16 @@ exports.template = function(grunt, init, done) {
       name: 'project_name',
       message: 'What is the name of your project?',
       default: 'my-grunt-project',
-      warning: 'Yes: QUnit unit tests + JSHint "browser" globals. No: Nodeunit unit tests.'
+      warning: 'The name of project containing only url-safe characters'
+    },
+    {
+      name: 'has_package_json',
+      message: 'Does your project already include a package.json file?',
+      default: 'Y/n',
+      warning: 'This determines whether or not a package.json file is generated for you.'
     }
   ], function(err, props) {
-
+    props.has_package_json = /y/i.test(props.package_json);
     // Files to copy (and process).
     var files = init.filesToCopy(props);
 
@@ -36,12 +42,14 @@ exports.template = function(grunt, init, done) {
 
       var projectName = props.project_name;
 
-      // Generate package.json file, used by npm and grunt.
-      init.writePackageJSON('package.json', {
-        name: projectName,
-        version: '0.1.0',
-        devDependencies: devDependencies
-      });
+      if(!props.has_package_json){
+        // Generate package.json file, used by npm and grunt.
+        init.writePackageJSON('package.json', {
+          name: props.has_package_json,
+          version: '0.1.0',
+          devDependencies: devDependencies
+        });
+      }
 
     done();
   });
