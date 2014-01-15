@@ -22,13 +22,13 @@ exports.template = function(grunt, init, done) {
       warning: 'The name of project containing only url-safe characters'
     },
     {
-      name: 'has_package_json',
-      message: 'Does your project already include a package.json file?',
+      name: 'package_json',
+      message: 'Do you need a package.json file?',
       default: 'Y/n',
       warning: 'This determines whether or not a package.json file is generated for you.'
     }
   ], function(err, props) {
-    props.has_package_json = /y/i.test(props.package_json);
+    props.package_json = /y/i.test(props.package_json);
     // Files to copy (and process).
     var files = init.filesToCopy(props);
 
@@ -42,10 +42,10 @@ exports.template = function(grunt, init, done) {
 
       var projectName = props.project_name;
 
-      if(!props.has_package_json){
+      if(props.package_json){
         // Generate package.json file, used by npm and grunt.
         init.writePackageJSON('package.json', {
-          name: props.has_package_json,
+          name: projectName,
           version: '0.1.0',
           devDependencies: devDependencies
         });
