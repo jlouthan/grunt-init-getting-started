@@ -16,12 +16,6 @@ exports.template = function(grunt, init, done) {
   init.process({}, [
     // Prompt for these values.
     {
-      name: 'project_name',
-      message: 'What is the name of your project?',
-      default: 'my-grunt-project',
-      warning: 'The name of project containing only url-safe characters'
-    },
-    {
       name: 'package_json',
       message: 'Do you need a package.json file?',
       default: 'Y/n',
@@ -40,12 +34,10 @@ exports.template = function(grunt, init, done) {
         'load-grunt-tasks': '~0.1.0'
       };
 
-      var projectName = props.project_name;
-
       if(props.package_json){
         // Generate package.json file, used by npm and grunt.
         init.writePackageJSON('package.json', {
-          name: projectName,
+          name: 'my-grunt-project',
           version: '0.1.0',
           devDependencies: devDependencies
         });
